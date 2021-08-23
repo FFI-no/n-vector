@@ -34,6 +34,7 @@ There are several *n*-vector libraries (from other authors) available in other p
 * **Go / Google's Go / Golang**: https://github.com/fortyninemaps/nvector
 *	**R**: https://github.com/euctrl-pru/nvctr 
 *	**Java**: https://github.com/omeruluoglu/JGeodesy 
+*	**Rust**: https://github.com/ofmooseandmen/jord-rs
 
 ## Contributing
 If you have suggestions or other comments to the code, please contact the author at kenneth.gade@ffi.no. 
