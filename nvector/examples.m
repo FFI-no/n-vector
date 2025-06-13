@@ -169,7 +169,7 @@ n_EB_E = lat_long2n_E(rad(lat_EB_deg),rad(long_EB_deg));
 p_EB_E = n_EB_E2p_EB_E(n_EB_E,-h_EB);
 
 disp(['Ex4: p_EB_E = [',num2str(p_EB_E(1)),', ',num2str(p_EB_E(2)),', ',num2str(p_EB_E(3)),']'' m']);
-disp(' '); clear;
+disp(' ');
 
 end
 
@@ -399,9 +399,13 @@ arrow3d([0 -n_EM_E(3)],[0 n_EM_E(2)],[0 n_EM_E(1)],0.9,0.02,0.05,'g'); % M, n_EM
 
 
 %%%%%%%%%%%%%%%%%%%%%% Plotting a spherical Earth surface:
+
+% Number of elements in the sphere (in each direction)
+n_of_Earth_plot_elements = 90;
+
 try
     % Loads a simple topographic model of Earth (available as part of default Matlab)
-    load topo
+    load("topo.mat","topo")
     
     % Remove height information, only storing information about water or land:
     Earth_topo_binary = zeros(size(topo));
@@ -410,11 +414,8 @@ try
     Earth_topo_binary = [Earth_topo_binary(:,181:360) Earth_topo_binary(:,1:180)]; % Switch the halves to get correct mapping for our plot
     clear topo
 catch
-    Earth_topo_binary = zeros(2)-1;
+    Earth_topo_binary = zeros(n_of_Earth_plot_elements+1)-1;
 end
-
-% Number of elements in the sphere (in each direction)
-n_of_Earth_plot_elements = 90;
 
 % Data for a 3D Earth sphere
 [Earth_plot_X,Earth_plot_Y,Earth_plot_Z] = sphere(n_of_Earth_plot_elements);
@@ -422,13 +423,12 @@ Earth_plot_X = Earth_plot_X*Earth_radius_for_plotting;
 Earth_plot_Y = Earth_plot_Y*Earth_radius_for_plotting;
 Earth_plot_Z = Earth_plot_Z*Earth_radius_for_plotting;
 
-Earth_surface_properties.Cdata = Earth_topo_binary; % Color data
-Earth_surface_properties.FaceLighting = 'gouraud'; % Smooth out light reflex
-Earth_surface_properties.FaceColor = 'texture'; % Note that the 'facecolor' property needs to be set to
-% 'texturemap' if the size of the z-data is different from the size of the data in the colormap (topo) that is loaded.
-Earth_surface_properties.EdgeColor = 'none'; % Remove mesh
-Earth_surface_properties.AmbientStrength = 0.1; % Ambient light strength
-surface(Earth_plot_X,Earth_plot_Y,Earth_plot_Z,Earth_surface_properties);
+Cdata = Earth_topo_binary; % Color data
+% FaceLighting = 'gouraud'; % Smooth out light reflex
+% FaceColor = 'texturemap' allowing different size of the z-data from the size of the data in the colormap (topo) that is loaded.
+% EdgeColor = 'none'; % Remove mesh
+% AmbientStrength = 0.1; % Ambient light strength
+surface(Earth_plot_X,Earth_plot_Y,Earth_plot_Z,Cdata,'FaceLighting','gouraud','FaceColor','texturemap','EdgeColor','none','AmbientStrength',0.1);
 material dull
 
 colmap_Earth_binary = [0.6 0.6 1
@@ -452,6 +452,7 @@ end
 % The following code is to plot 3D arrows. It is written by Moshe Lindner, and
 % was retreieved from MATLAB Central File Exchange 2015.03.26
 % https://www.mathworks.com/matlabcentral/fileexchange/28324-3d-arrow-plot
+% 20240828: modified slightly to avoid warnings
 
 function [h] = arrow3d(x,y,z,head_frac,radii,radii2,colr)
 %
@@ -543,9 +544,9 @@ normn1=[normn1,normn1,normn1];
 n1=n1./normn1;
 P1=n1+Pc;
 
-X1=[];Y1=[];Z1=[];
+X1=zeros(5,N);Y1=zeros(5,N);Z1=zeros(5,N);
 j=1;
-for theta=([0:N])*2*pi./(N)
+for theta=(0:N)*2*pi./(N)
     R1=Pc+radii*cos(theta).*(P1-Pc) + radii*sin(theta).*cross(dr,(P1-Pc)) -origin_shift;
     X1(2:3,j)=R1(:,1);
     Y1(2:3,j)=R1(:,2);
@@ -571,7 +572,7 @@ n1=n1./normn1;
 P1=n1+Pc;
 
 j=1;
-for theta=([0:N])*2*pi./(N)
+for theta=(0:N)*2*pi./(N)
     R1=Pc+radii2*cos(theta).*(P1-Pc) + radii2*sin(theta).*cross(dr,(P1-Pc)) -origin_shift;
     X1(4:5,j)=R1(:,1);
     Y1(4:5,j)=R1(:,2);
@@ -588,7 +589,7 @@ Z1(5,:)=Z1(5,:)*0 + z(3);
 
 h=surf(X1,Y1,Z1,'facecolor',colr,'edgecolor','none');
 %camlight
-lighting phong
+lighting gouraud
 
 end
 
