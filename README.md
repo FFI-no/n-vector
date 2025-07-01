@@ -1,46 +1,52 @@
-# *n*-vector library in Matlab
+# *n*-vector library in Matlab and Octave (plus many other languages)
+Author: Kenneth Gade (PhD, Principal Scientist at [FFI](https://www.ffi.no/en))
 
-Author: Kenneth Gade (PhD, principal scientist at FFI)
-
-This library is for performing a range of different geographical position calculations, e.g. adding, subtracting, interpolating, and averaging positions. Exact results are returned for either ellipsoidal or spherical Earth model.
+This library provides tools for a wide range of different geographical position calculations, such as adding, subtracting, interpolating, and averaging positions. Exact results are returned for either ellipsoidal or spherical Earth model. This code is compatible with Matlab and the free [Octave](https://octave.org/).
 
 All calculations are based on [*n*-vector](https://www.navlab.net/nvector) (which can replace e.g. latitude and longitude), giving several advantages:
 
-* The calculations are typically **simple and intuitive**
+* **Simple and intuitive** calculations.
   * Reason: *n*-vector is a 3D vector and hence the powerful vector algebra can be used to solve many position calculations intuitively and with few code lines.
-* The calculations are **non-singular** (i.e. work equally well at or near the poles as any other global position)
+* **Non-singular** calculations: work equally well at or near the North/South Pole as any other global position.
   * Reason: The *n*-vector representation is inherently non-singular for all Earth positions.
-* The calculations have **no discontinuities** (i.e. work equally well across the dateline (±180° longitude meridian) as any other global positions)
+* **No discontinuities** in the calculations:  work equally well across the dateline (±180° longitude meridian) as any other global positions.
   * Reason: The *n*-vector representation has no discontinuities.
-   
 
 For more details and 10 examples of usage, see https://www.navlab.net/nvector 
 
-**Reference:** 
-> Kenneth Gade (2010): A Non-singular Horizontal Position Representation, *The Journal of Navigation*, Volume 63, Issue 03, pp 395-417, July 2010, [DOI: 10.1017/S0373463309990415](https://doi.org/10.1017/S0373463309990415). <br/> 
-*<https://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf>*
+**References:** 
+> * K. Gade (2010): A Non-singular Horizontal Position Representation, *The Journal of Navigation*, Volume 63, Issue 03, pp 395-417, July 2010. *<https://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf>*
+> * K. Gade (2025): The *n*-vector page *<https://www.ffi.no/en/research/n-vector>*
 
-### Also available in several other programming languages:
 
-There are several *n*-vector libraries (from other authors) available in other programming languages that are either based on this library, or based directly on the reference article ([Gade, 2010](https://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf)). Some of these are listed below. Note: the listed code is not verified by the author of this library.
+## Also available in many other programming languages
 
-* **C# (C Sharp)**: https://www.navlab.net/nvector/#download
-* **C++**: https://www.navlab.net/nvector/#download
+There are several *n*-vector libraries (from other authors) available in other programming languages that are either based on this Matlab library, or based directly on the reference article ([Gade, 2010](https://www.navlab.net/Publications/A_Nonsingular_Horizontal_Position_Representation.pdf)). Some of these are:
+
 * **Python**: https://github.com/pbrod/Nvector
   * Alternative 2: https://github.com/mrJean1/PyGeodesy 
-  * Alternative 3: https://github.com/lxnt/ccnvector
-* **JavaScript**: https://github.com/chrisveness/geodesy
+  * Alternative 3: https://github.com/mhogan-nwra/envector
+  * Alternative 4: https://github.com/lxnt/ccnvector
+* **JavaScript**: https://github.com/chrisveness/geodesy/blob/master/latlon-nvector-spherical.js
+* **C++**: https://www.navlab.net/nvector/#download
+  * Alternative 2: https://github.com/GPSBabel/gpsbabel/blob/master/src/core/nvector.cc
+* **C# (C Sharp)**: https://www.navlab.net/nvector/#download
+  * Alternative 2: https://github.com/johnjore/hajk/tree/master/Libraries/FFI.NVector
+* **Go / Google's Go / Golang**: https://github.com/ezzatron/nvector-go
+  * Alternative 2: https://github.com/fortyninemaps/nvector 
+* **TypeScript**: https://github.com/ezzatron/nvector-js
 * **Haskell**: https://github.com/ofmooseandmen/jord
-* **Go / Google's Go / Golang**: https://github.com/fortyninemaps/nvector
-*	**R**: https://github.com/euctrl-pru/nvctr 
-*	**Java**: https://github.com/omeruluoglu/JGeodesy 
-*	**Rust**: https://github.com/ofmooseandmen/jord-rs
+* **R**: https://github.com/euctrl-pru/nvctr 
+* **Java**: https://github.com/huiAlex/TRIAD/tree/main/dataset/dronology/unprocessed/code/src
+* **Rust**: https://github.com/ofmooseandmen/jord-rs
 
 ## Contributing
-If you have suggestions or other comments to the code, please contact the author at kenneth.gade@ffi.no. 
+If you have comments to the code or tips about additional libraries to be added to the list above, please contact the author at kenneth.gade@ffi.no.
 
 ## Using this code
-The code works with all Matlab versions (and no toolboxes are needed). A simple example of usage is Example 7 from https://www.navlab.net/nvector, where a horizontal midpoint is calculated:
+The code works with all Matlab versions and Octave (no toolboxes are needed). A simple example of usage is Example 7 from https://www.navlab.net/nvector, where a horizontal midpoint is calculated:
+
+
 
 ```matlab
 % Three positions A, B and C are given as lat/long in degrees.
